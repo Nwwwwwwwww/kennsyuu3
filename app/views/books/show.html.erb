@@ -9,19 +9,26 @@
       <h1>Book detail</h1>
       <table class="table table-user-show">
         <tr>
-          
+
           <td>
-          <%= link_to image_tag(@book.user.get_profile_image(80,80)),user_path(@book.user.id) %> 
+                <%= link_to user_path(@book.user.id) do%>
+                <%= image_tag @book.user.get_profile_image(80,80) %>
+                <% end %>
           <%= link_to @user.name, user_path(@user) %>
           </td>
           <td><%= @book.title %></td>
           <td><%= @book.body %></td>
+          <td>コメント数: <%= @book.book_comments.count %></td>
+           <td><%= render "favorites/btn", book: @book %></td>
           <% if @book.user_id == current_user.id %>
             <td><%= link_to "Edit", edit_book_path(@book), class:"btn btn-success"%></td>
             <td><%= link_to "Destroy", book_path(@book), method: :delete, data: {confirm: "本当に消しますか？"}, class:"btn btn-danger" %></td>
           <% end %>
         </tr>
       </table>
+      <%= render "book_comments/index", book: @book %>
+      <%= render "book_comments/book_comment", book: @book, book_comment: @book_comment %>
+
     </div>
   </div>
 </div>
